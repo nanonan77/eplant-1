@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Win32Resource></Win32Resource>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\arial-unicode-ms.ttf" />
+    <None Remove="Fonts\TAHOMA.TTF" />
+    <None Remove="Fonts\THSARABUN.TTF" />
+    <None Remove="Resources\risk_dashboard.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\Angsana New.ttf" />
+    <EmbeddedResource Include="Fonts\arial-unicode-ms.ttf" />
+    <EmbeddedResource Include="Fonts\TAHOMA.TTF" />
+    <EmbeddedResource Include="Fonts\THSARABUN.TTF" />
+    <EmbeddedResource Include="Resources\risk_dashboard.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="5.7.5" />
+    <PackageReference Include="itext7" Version="7.1.16" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sketec.Core\Sketec.Core.csproj" />
+    <ProjectReference Include="..\Sketec.FileReader\Sketec.FileReader.csproj" />
+    <ProjectReference Include="..\Sketec.Infrastructure\Sketec.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
