@@ -7,12 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
+RUN dotnet restore "Sketec.Api/Sketec.Api.csproj"
 COPY ["Sketec.Api/Sketec.Api.csproj", "Sketec.Api/"]
 COPY ["Sketec.Core/Sketec.Core.csproj", "Sketec.Core/"]
 COPY ["Sketec.Application/Sketec.Application.csproj", "Sketec.Application/"]
 COPY ["Sketec.Infrastructure/Sketec.Infrastructure.csproj", "Sketec.Infrastructure/"]
-RUN dotnet restore "Sketec.Api/Sketec.Api.csproj"
-RUN dotnet restore "Sketec.FileWriter/Sketec.FileWriter.csproj"
 COPY . .
 WORKDIR "/src/Sketec.Api"
 RUN dotnet build "Sketec.Api.csproj" --no-restore -c Release -o /app/build
