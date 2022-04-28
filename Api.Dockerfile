@@ -12,6 +12,7 @@ COPY ["Sketec.Core/Sketec.Core.csproj", "Sketec.Core/"]
 COPY ["Sketec.Application/Sketec.Application.csproj", "Sketec.Application/"]
 COPY ["Sketec.Infrastructure/Sketec.Infrastructure.csproj", "Sketec.Infrastructure/"]
 RUN dotnet restore "Sketec.Api/Sketec.Api.csproj"
+RUN dotnet restore "Sketec.FileWriter/Sketec.FileWriter.csproj"
 COPY . .
 WORKDIR "/src/Sketec.Api"
 RUN dotnet build "Sketec.Api.csproj" --no-restore -c Release -o /app/build
