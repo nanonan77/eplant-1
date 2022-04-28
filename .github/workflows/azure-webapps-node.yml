@@ -2,7 +2,7 @@ name: sft-eplantation-back-test
 on: 
   push:
     branches:
-      - test
+      - main
 
 permissions:
       id-token: write
