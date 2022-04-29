@@ -24,9 +24,9 @@ namespace Sketec.Infrastructure.Datas.Configurations
             builder.Property(e => e.District).HasMaxLength(50).IsUnicode(true);
             builder.Property(e => e.SubDistrict).HasMaxLength(50).IsUnicode(true);
             builder.Property(e => e.Village).HasMaxLength(50).IsUnicode(true);
+            
 
-
-            builder.Property(e => e.Verifier).HasMaxLength(200).IsUnicode(true);
+           
             builder.Property(e => e.RentalArea).HasPrecision(22, 2);
             builder.Property(e => e.ProductiveArea).HasPrecision(22, 2);
             builder.Property(e => e.PotentialArea).HasPrecision(22, 2);
@@ -40,19 +40,6 @@ namespace Sketec.Infrastructure.Datas.Configurations
             
             builder.Property(e => e.Remark).HasMaxLength(2000).IsUnicode(true);
             builder.Property(e => e.ContractType).HasMaxLength(20).IsUnicode(true);
-
-            builder.HasOne(e => e.NewRegist)
-                .WithMany()
-                .HasForeignKey(e => e.NewRegistId)
-                .HasPrincipalKey(e => e.Id)
-                .IsRequired(true)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasMany(e => e.Unplans)
-               .WithOne(i => i.Plantation)
-               .HasForeignKey(e => e.PlantationId)
-               .HasPrincipalKey(e => e.Id)
-               .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

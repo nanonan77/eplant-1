@@ -22,6 +22,5 @@ namespace Sketec.Application.Interfaces
         Task UpdateUserInfo(int id, UserUpdateRequest request, BindPropertyCollection httpPatchBindProperty = null);
 
         Task<IEnumerable<RoleActivityDto>> GetRoleActivity(string role);
-        Task<IEnumerable<string>> GetFieldPosition(string field);
     }
 }

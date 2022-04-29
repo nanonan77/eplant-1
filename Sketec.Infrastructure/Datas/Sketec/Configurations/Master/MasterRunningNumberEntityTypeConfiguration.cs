@@ -29,8 +29,7 @@ namespace Sketec.Infrastructure.Datas.Configurations
                 new MasterRunningNumber { Id = 2, Topic = "PlantationMOU", Template = "PMOU{year}{temp1}{running}", Digit = 2, IsActive = true, IsDelete = false },
                 new MasterRunningNumber { Id = 3, Topic = "PlantationVIP", Template = "PVIP{year}{temp1}{running}", Digit = 2, IsActive = true, IsDelete = false },
                 new MasterRunningNumber { Id = 4, Topic = "SubPlantation", Template = "{temp1}-{running}", Digit = 2, IsActive = true, IsDelete = false },
-                new MasterRunningNumber { Id = 5, Topic = "Unplan", Template = "UN{year}-{running}", Digit = 5, IsActive = true, IsDelete = false },
-                new MasterRunningNumber { Id = 6, Topic = "MappingTrans", Template = "MM{year}{temp1}-{running}", Digit = 2, IsActive = true, IsDelete = false }
+                new MasterRunningNumber { Id = 5, Topic = "Unplan", Template = "UN{year}-{running}", Digit = 5, IsActive = true, IsDelete = false }
              );
         }
     }

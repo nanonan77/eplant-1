@@ -11,7 +11,7 @@ namespace Sketec.Core.Specifications
     {
         public NewPlantationSearchByIdSpec(Guid Id) 
         {
-            Query.Where(f => f.Id == Id && f.IsDelete == false);
+            Query.Where(f => f.Id == Id);
             Query.AsSplitQuery();
         }
     }

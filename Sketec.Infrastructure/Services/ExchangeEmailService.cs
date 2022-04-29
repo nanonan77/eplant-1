@@ -34,10 +34,10 @@ namespace Sketec.Infrastructure.Services
                 if (setting.Environment != "prod")
                 {
                     msg.Subject = $"[Test] {msg.Subject}";
-                    //msg.ToRecipients.Add("parinya.champ@gmail.com");
-                    //msg.ToRecipients.Add("pcchai456@gmail.com");
-                    //msg.ToRecipients.Add("yuttana.mac@gmail.com");
-                    //msg.ToRecipients.Add("veeraya.nan@gmail.com");
+                    msg.ToRecipients.Add("parinya.champ@gmail.com");
+                    msg.ToRecipients.Add("pcchai456@gmail.com");
+                    msg.ToRecipients.Add("yuttana.mac@gmail.com");
+                    msg.ToRecipients.Add("veeraya.nan@gmail.com");
                     msg.ToRecipients.Add("atthawadee@sketecthailand.com");
                 }
                 else
