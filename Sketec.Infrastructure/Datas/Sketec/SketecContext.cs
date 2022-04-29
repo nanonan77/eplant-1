@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Sketec.Core.Domains;
 using Sketec.Infrastructure.Datas.Configurations;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 

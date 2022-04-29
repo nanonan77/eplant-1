@@ -26,7 +26,8 @@ namespace Sketec.Infrastructure.Services
             var data = loader.GetFile(serverRelativeUrl);
             if (data == null)
             {
-                using (System.IO.MemoryStream mStream = new System.IO.MemoryStream(Resource.Activity_Master))
+                var file = Utils.GetResources("Activity Master.xlsx");
+                using (System.IO.MemoryStream mStream = new System.IO.MemoryStream(file))
                 {
                     data = mStream.ToArray();
                 }
@@ -49,8 +50,9 @@ namespace Sketec.Infrastructure.Services
 
         public void ReplaceNewRegistFile()
         {
+            var file = Utils.GetResources("New Regist_01.xlsx");
             var loader = new SharepointLoader(option.Url, option.ClientId, option.ClientSecret);
-            loader.ReplaceFile(Resource.New_Regist_01, option.NewRegistPath, option.NewRegistFileName);
+            loader.ReplaceFile(file, option.NewRegistPath, option.NewRegistFileName);
         }
 
         public byte[] GetImage(string url)
