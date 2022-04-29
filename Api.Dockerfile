@@ -25,8 +25,8 @@ RUN ln -s /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_ENVIRONMENT=Staging
-ENV TZ=Asia/Bangkok
+# ENV ASPNETCORE_ENVIRONMENT=Staging
+# ENV TZ=Asia/Bangkok
 # ENV ASPNETCORE_URLS=https://+;http://+
 # ENV ASPNETCORE_Kestrel__Certificates__Default__Password=Ready123!
 # ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
