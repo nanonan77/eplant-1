@@ -20,6 +20,7 @@ namespace Sketec.Application.Resources
         public string ActivityTH { get; set; }
         public string ActivityCode { get; set; }
         public int MasterActivityTypeId { get; set; }
+        public MasterActivityTypeSearchResultDto MasterActivityType { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Sketec.Application.Resources.Management;
 using Sketec.Core.Domains;
 using Sketec.Core.Extensions;
 using System;
@@ -17,7 +18,8 @@ namespace Sketec.Application.Resources
     {
         public Guid? Id { get; set; }
         public Guid? NewRegistId { get; set; }
-        public string PlantationId { get; set; }
+        public string Assignment { get; set; }
+        public string PlantationNo { get; set; }
         public string Title { get; set; }
         public string ContractType { get; set; }
         public string Status { get; set; }
@@ -44,10 +46,19 @@ namespace Sketec.Application.Resources
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public string Action { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsDelete { get; set; }
+
+        public DateTime? ContractEndDate { get; set; }
+
+        public DateTime? ContractStartDate { get; set; }
 
         public IEnumerable<SubNewPlantationDto> SubPlantations { get; set; }
-        public IEnumerable<NewRegistImagePathDto> NewRegistImagePaths { get; set; }
+
+        public IEnumerable<NewRegistImagePathDto> NewPlantationImagePaths { get; set; }
+
+        public IEnumerable<FileInfoDto> NewPlantationImageOther { get; set; }
+
 
         public bool IsCanEdit { get; set; }
     }

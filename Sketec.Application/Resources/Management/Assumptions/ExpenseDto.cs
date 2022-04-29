@@ -1,4 +1,6 @@
-﻿using Sketec.Core.Domains.Types;
+﻿using AutoMapper;
+using Sketec.Core.Domains;
+using Sketec.Core.Domains.Types;
 using Sketec.Core.Extensions;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,20 @@ using System.Threading.Tasks;
 
 namespace Sketec.Application.Resources.Management.Assumptions
 {
+    public class ExpenseProfile : Profile
+    {
+        public ExpenseProfile()
+        {
+            CreateMap<Expense, ExpenseDto>()
+                .ForMember(d => d.ActivityName, s => s.MapFrom(o => o.MasterActivity.ActivityTH))
+                .ForMember(d => d.ActivityTypeId, s => s.MapFrom(o => o.MasterActivity.MasterActivityTypeId))
+                .ForMember(d => d.ActivityGroup, s => s.MapFrom(o => o.MasterActivity.MasterActivityType.ActivityGroup))
+                .ForMember(d => d.ActivityTypeName, s => s.MapFrom(o => o.MasterActivity.MasterActivityType.TitleTH));
+
+
+        }
+
+    }
     public class ExpenseDto
     {
         public Guid Id { get; set; }
@@ -37,5 +53,11 @@ namespace Sketec.Application.Resources.Management.Assumptions
         public decimal? YearCost14 { get; set; }
         public decimal? YearCost15 { get; set; }
         public bool IsUnplan { get; set; }
+        public bool IsLatest { get; set; }
+        public Guid? UnplanId { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDelete { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }

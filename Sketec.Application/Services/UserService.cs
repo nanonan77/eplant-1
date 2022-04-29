@@ -243,7 +243,6 @@ namespace Sketec.Application.Services
             }
         }
 
-
         public async Task UpdateInfo()
         {
             await SyncDataFromGDC();
@@ -306,6 +305,7 @@ namespace Sketec.Application.Services
             }
             await uow.SaveAsync();
         }
+        
         public async Task UpdateReportTo3()
         {
             var user = await GetUserData(new UserFilter { IsLocal = false, IsActive = true });
@@ -330,6 +330,29 @@ namespace Sketec.Application.Services
             var list = await roleActivityRepo.ListAsync(spec);
 
             return mapper.Map<IEnumerable<RoleActivity>, IEnumerable<RoleActivityDto>>(list);
+        }
+
+
+        public async Task<IEnumerable<string>> GetFieldPosition(string field)
+        {
+            var spec = new UserSearchSpec(new UserFilter { IsActive = true });
+            var list = await userRepo.ListAsync(spec);
+
+            List<string> listString = new List<string>();
+            if(field == "position")
+            {
+                listString = list.Select(o => o.PositionName).Distinct().ToList();
+            }
+            else if (field == "section")
+            {
+                listString = list.Select(o => o.Sec_Name).Distinct().ToList();
+            }
+            else if (field == "department")
+            {
+                listString = list.Select(o => o.Dep_Name).Distinct().ToList();
+            }
+
+            return listString;
         }
     }
 }

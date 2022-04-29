@@ -65,5 +65,8 @@ namespace Sketec.Api.Controllers
 
             return result;
         }
+
+        [HttpGet("field/{field}")]
+        public Task<IEnumerable<string>> GetFieldPosition(string field) => userService.GetFieldPosition(field);
     }
 }

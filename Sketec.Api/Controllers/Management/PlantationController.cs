@@ -54,6 +54,16 @@ namespace Sketec.Api.Controllers
             return File(resp.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", resp.Filename);
         }
 
+        [HttpPost("uploadPlanYield-excel/{id}")]
+        public async Task UploadPlanYieldExcel(Guid id, UploadPlantationRequest request) => await service.UploadPlanYieldExcel(id, request);
+
+
+        [HttpGet("downloadPlanYield-file/{id}")]
+        public async Task<ActionResult> DownloadPlanYieldFile(Guid id)
+        {
+            var resp = await service.DownloadPlanYieldFile(id);
+            return File(resp.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", resp.Filename);
+        }
 
 
         //[HttpPatchBindProperty]

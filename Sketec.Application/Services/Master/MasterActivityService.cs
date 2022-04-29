@@ -94,16 +94,6 @@ namespace Sketec.Application.Services
         {
             Ensure.Any.IsNotNull(request, "MasterActivityUpdateRequest");
 
-            // validate MasterActivity ห้ามเลือก Title TH  และกรอก  Activity TH ค่าซ้ำกับที่มีในระบบ
-            var spec = new MasterActivityLinqSearchSpec(new MasterActivityFilter());
-            var list = await queryRepo.ListAsync(spec);
-
-            if (list.Where(m => m.MasterActivityTypeId == request.MasterActivityTypeId && m.ActivityTH == request.ActivityTH).Count() > 0)
-            {
-                throw new ApplicationException("ไม่สามารถเลือกTitle TH  และกรอก  Activity TH ค่าซ้ำกับที่มีในระบบได้");
-            }
-            // validate MasterActivity ห้ามเลือก Title TH  และกรอก  Activity TH ค่าซ้ำกับที่มีในระบบ
-
             var activity = await dataRepo.GetByIdAsync(id);
             if (activity != null)
             {

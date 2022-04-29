@@ -13,7 +13,7 @@ namespace Sketec.Core.Specifications
     {
         public NewRegistImagePathSearchByRegistIdSpec(string regisNoId) 
         {
-            Query.Where(f => f.SurveyId == regisNoId && f.ImageLevel == NewRegistLevel.NewRegist);
+            Query.Where(f => f.SurveyId == regisNoId && f.ImageLevel == NewRegistLevel.NewRegist && f.ItemType == "Item");
             Query.AsSplitQuery();
         }
     }
@@ -21,7 +21,7 @@ namespace Sketec.Core.Specifications
     {
         public NewRegistImagePathSearchBySubRegistIdSpec(string subRegisId)
         {
-            Query.Where(f => f.PlantationId == subRegisId && f.ImageLevel == NewRegistLevel.SubNewRegist);
+            Query.Where(f => f.PlantationId == subRegisId && f.ImageLevel == NewRegistLevel.SubNewRegist && f.ItemType == "Item");
             Query.AsSplitQuery();
         }
     }
@@ -29,7 +29,7 @@ namespace Sketec.Core.Specifications
     {
         public NewRegistImagePathSearchBySubRegistTestProtIdSpec(string subRegisTestPlotId)
         {
-            Query.Where(f => f.ImageInfo2 == subRegisTestPlotId && f.ImageLevel == NewRegistLevel.SubNewRegistTestPlot);
+            Query.Where(f => f.ImageInfo2 == subRegisTestPlotId && f.ImageLevel == NewRegistLevel.SubNewRegistTestPlot && f.ItemType == "Item");
             Query.AsSplitQuery();
         }
     }
@@ -37,7 +37,7 @@ namespace Sketec.Core.Specifications
     {
         public NewRegistImagePathAllRegistIdSpec(string regisNoId)
         {
-            Query.Where(f => f.SurveyId == regisNoId);
+            Query.Where(f => f.SurveyId == regisNoId && f.ItemType == "Item");
             Query.AsSplitQuery();
         }
     }

@@ -33,6 +33,9 @@ namespace Sketec.Core.Specifications
                         join g in Set<FileInfo>() on plantaion.Id equals g.RefId into f3
                         from g in f3.Where(x => x.FileType == "NewPlantationAmortized").DefaultIfEmpty()
 
+                        join h in Set<FileInfo>() on plantaion.Id equals h.RefId into f4
+                        from h in f4.Where(x => x.FileType == "NewPlantationPlanYield").DefaultIfEmpty()
+
                         where newReg.IsDelete == false 
                         select new PlantationSearchResultDto
                         {
@@ -52,7 +55,8 @@ namespace Sketec.Core.Specifications
                             UpdatedBy = newReg.UpdatedBy,
                             IsCanEdit = true,
                             FileId = f == null ? null : f.Id,
-                            FileAmortizedId = g == null ? null : g.Id
+                            FileAmortizedId = g == null ? null : g.Id,
+                            FilePlanYieldId = h == null ? null : h.Id
                         };
             if (filter.NewRegistID != null) {
                 query = query.Where(m => m.NewRegistId == filter.NewRegistID);
@@ -101,7 +105,7 @@ namespace Sketec.Core.Specifications
                         select new PlantationSearchResultDto
                         {
                             Id = plantaion.Id,
-                            NewRegistId = plantaion.Id,
+                            NewRegistId = plantaion.NewRegistId,
                             PlantationNo = plantaion.PlantationNo ,
                             Title = plantaion.Title,
                             ContractType = plantaion.ContractType,
@@ -143,5 +147,6 @@ namespace Sketec.Core.Specifications
         public bool IsCanEdit { get; set; }
         public Guid? FileId { get; set; }
         public Guid? FileAmortizedId { get; set; }
+        public Guid? FilePlanYieldId { get; set; }
     }
 }

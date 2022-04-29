@@ -68,6 +68,15 @@ namespace Sketec.Infrastructure.Datas
             builder.ApplyConfiguration(new FileInfoEntityTypeConfiguration());
             #endregion Files
 
+            #region Interface
+            builder.ApplyConfiguration(new Mapping9999EntityTypeConfiguration());
+            builder.ApplyConfiguration(new Match9999EntityTypeConfiguration());
+            builder.ApplyConfiguration(new MatchDataEntityTypeConfiguration());
+            builder.ApplyConfiguration(new MatchPlantationEntityTypeConfiguration());
+            builder.ApplyConfiguration(new MappingTransEntityTypeConfiguration());
+            
+            #endregion Interface
+
             Seed(builder);
         }
 

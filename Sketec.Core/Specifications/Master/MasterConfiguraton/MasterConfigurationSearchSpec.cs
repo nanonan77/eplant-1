@@ -25,8 +25,11 @@ namespace Sketec.Core.Specifications
             if (!string.IsNullOrWhiteSpace(filter.Value))
                 Query.Where(m => m.Value == filter.Value);
 
-            if(filter.IsActive != null)
-                Query.Where(m => m.IsActive == filter.IsActive);
+            //if(filter.IsActive != null)
+            //    Query.Where(m => m.IsActive == filter.IsActive);
+
+            Query.Where(m => m.IsActive == true);
+            Query.Where(m => m.IsDelete == false);
 
         }
     }

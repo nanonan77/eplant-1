@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Domains\InvoiceManagement\**" />
-    <EmbeddedResource Remove="Domains\InvoiceManagement\**" />
-    <None Remove="Domains\InvoiceManagement\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Ardalis.Specification" Version="5.1.0" />
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="5.1.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />

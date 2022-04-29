@@ -32,8 +32,4 @@
     <ProjectReference Include="..\Sketec.Infrastructure\Sketec.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Share\" />
-  </ItemGroup>
-
 </Project>

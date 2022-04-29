@@ -11,5 +11,7 @@ namespace Sketec.Application.Interfaces
     public interface IRollingPlanService : IApplicationService
     {
         Task<IEnumerable<RollingPlanSearchResultDto>> GetRollingPlans(RollingPlanFilter filter);
+        Task<IEnumerable<RollingPlanDetailSearchResultDto>> GetRollingPlanDetails(RollingPlanDetailFilter filter);
+        Task<IEnumerable<RollingPlanLookupFilterDto>> GetActivities(RollingPlanFilter filter);
     }
 }

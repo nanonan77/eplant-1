@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Sketec.Application.Resources;
 using Sketec.Core.Specifications;
 using Sketec.Core.Domains.Types;
+using System.IO;
 
 namespace Sketec.Application.Services
 {
@@ -31,6 +32,9 @@ namespace Sketec.Application.Services
         IWCRepository<SubPlantation> dataSubRepo;
         IWCRepository<NewRegistImagePath> imgRepo;
         IRunningNumberService runningService;
+        IWCRepository<Core.Domains.FileInfo> fileInfoRepo;
+        IFileInfoService fileService;
+        IWCAzureBlobStorageService azureBlobStorageService;
         public SubNewPlantationService(
             IMapper mapper,
             IWCUnitOfWork uow,
@@ -38,6 +42,9 @@ namespace Sketec.Application.Services
             ISharePointService sharePointService,
             IWCRepository<Plantation> dataRepo,
             IWCRepository<SubPlantation> dataSubRepo,
+            IWCRepository<Core.Domains.FileInfo> fileInfoRepo,
+            IFileInfoService fileService,
+            IWCAzureBlobStorageService azureBlobStorageService,
             IWCRepository<NewRegistImagePath> imgRepo,
             IWCQueryRepository queryRepo,
             IRunningNumberService runningService)
@@ -51,11 +58,13 @@ namespace Sketec.Application.Services
             this.dataSubRepo = dataSubRepo;
             this.imgRepo = imgRepo;
             this.runningService = runningService;
+            this.fileService = fileService;
+            this.fileInfoRepo = fileInfoRepo;
+            this.azureBlobStorageService = azureBlobStorageService;
         }
 
         public async Task<SubNewPlantationDto> GetSubNewPlantation(Guid subNewRegisID)
         {
-
             var spec = new SubNewPlantationSearchByIdSpec(subNewRegisID);
             var data = await dataSubRepo.GetBySpecAsync(spec);
 
@@ -64,6 +73,7 @@ namespace Sketec.Application.Services
             //var dataSub = await dataRepo.GetBySpecAsync(specSub);
 
             var result = mapper.Map<SubNewPlantationDto>(data);
+            result.IsCanEdit = true;
 
             var specImg = new NewPlantationImagePathSearchBySubPlantationIdSpec(result.SubPlantationNo);
             var dataImg = await imgRepo.ListAsync(specImg);
@@ -73,40 +83,73 @@ namespace Sketec.Application.Services
             //{
             //    item.Base64 = sharePointService.GetImage(item.ImageInfo);
             //}
-            result.SubNewRegistImagePaths = resultImg;
+            result.SubNewPlantationImagePaths = resultImg;
 
             return result;
 
         }
-        public async Task CreateSubNewPlantation(SubNewPlantationCreateRequest request)
+        public async Task CreateSubNewPlantation(SubNewPlantationDto request)
         {
             try
             {
-
                 Ensure.Any.IsNotNull(request, "SubNewPlantationCreateRequest");
 
-                var spec = new NewPlantationSearchByIdSpec(request.PlantationId).InCludeSubNewPlantations();
-                var data = await dataRepo.GetBySpecAsync(spec);
+                // check MOU Seeding less 
+                var specPlantation = new NewPlantationSearchByIdSpec(request.PlantationId).InCludeSubNewPlantations();
+                var dataPlantation = await dataRepo.GetBySpecAsync(specPlantation);
+                var resultPlantation = mapper.Map<NewPlantationDto>(dataPlantation);
 
-                var runningNumber = await runningService.GetRunningNumber("SubPlantation", null, data.PlantationNo);
-                
+                if (resultPlantation.ContractType == "MOU")
+                {
+                    var listSubPlantaions = resultPlantation.SubPlantations;
+                    int? sumInSubPlantations = 0;
+                    foreach (var item in listSubPlantaions)
+                    {
+                        if (item.Id != request.Id)
+                        {
+                            sumInSubPlantations += item.Seedling;
+                        }
+                    }
+
+                    if (resultPlantation.Seedling != null && request.Seedling != null)
+                    {
+                        if (sumInSubPlantations + request.Seedling > resultPlantation.Seedling)
+                        {
+                            throw new ApplicationException("Seeding must be less than Seeding Plan of Plantation");
+                        }
+                    }
+                    else
+                    {
+                        if (resultPlantation.Seedling == null && request.Seedling != null)
+                        {
+                            throw new ApplicationException("Seeding must be null");
+                        }
+                    }
+                }
+                // check MOU Seeding less 
+
+                //var spec = new NewPlantationSearchByIdSpec(request.PlantationId).InCludeSubNewPlantations();
+                //var data = await dataRepo.GetBySpecAsync(spec);
+
+                var runningNumber = await runningService.GetRunningNumber("SubPlantation", null, dataPlantation.PlantationNo);
+
                 //var currentNo = data.SubPlantations.Count == 0 ? 0 : data.SubPlantations.Select(o => o.SubPlantationNo.Replace($"{data.PlantationNo}-", string.Empty)).Select(o => Convert.ToInt32(o)).Max();
-                
+
                 //string no = currentNo > 9 ? (currentNo + 1).ToString(): "0" + (currentNo + 1).ToString();
                 //var data = await GetMasterActivitys(new MasterActivityFilter { MasterActivityTypeId = request.MasterActivityTypeId });
                 //var codeMax = data.OrderByDescending(x => x.ActivityCode).FirstOrDefault();
                 //request.ActivityCode = codeMax.ActivityGroup + (Convert.ToInt32(codeMax.ActivityCode.Substring(1)) + 1).ToString().PadRight(2, '0');
-                data.AddSubPlantation(new SubPlantation
+
+                var dataSubPlantation = new SubPlantation()
                 {
-                    //Id = Guid.NewGuid(),
                     Title = request.Title,
-                    PlantationNo = data.PlantationNo,
+                    PlantationNo = dataPlantation.PlantationNo,
                     SubPlantationNo = runningNumber,
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
                     Area = request.Area,
                     Seedling = request.Seedling,
-                    Remark = request.SubPlantationNo,
+                    Remark = request.Remark,
                     PlantYear = request.PlantYear,
                     HarvestingMonth = request.HarvestingMonth,
                     HarvestingYear = request.HarvestingYear,
@@ -116,17 +159,94 @@ namespace Sketec.Application.Services
                     ActualVipPrice = request.ActualVipPrice,
                     IsActive = true,
                     IsDelete = false
-                });
+                };
+
+                dataPlantation.AddSubPlantation(dataSubPlantation);
+
                 await uow.SaveAsync();
+                //data.AddSubPlantation(new SubPlantation
+                //{
+                //    //Id = Guid.NewGuid(),
+
+                //});
+
+                var specInfo = new FileInfoSearchSpec(new FileInfoFilter { RefId = dataSubPlantation.Id, FileType = "Other" });
+                var list = await fileInfoRepo.ListAsync(specInfo);
+                foreach (var item in list)
+                {
+                    item.IsActive = false;
+                }
+                if (request.SubNewPlantationImageOther != null)
+                {
+                    foreach (var item in request.SubNewPlantationImageOther)
+                    {
+                        var detail = list.FirstOrDefault(f => f.Id == item.Id);
+                        if (detail != null)
+                        {
+                            detail.IsActive = true;
+                        }
+                        else
+                        {
+                            var fileName = $"{Path.GetRandomFileName()}";
+                            var path = $"eplantation/NewPlantation/{dataSubPlantation.Id}/Other/{fileName}";
+                            //await azureBlobStorageService.Upload(path, item.Base64);
+
+                            detail = new Core.Domains.FileInfo(item.FileName)
+                            {
+                                FileType = "Other",
+                                RefId = dataSubPlantation.Id,
+                                Path = path
+                            };
+                            await fileInfoRepo.AddAsync(detail);
+                        }
+
+                    }
+                    await uow.SaveAsync();
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task UpdateSubNewPlantation(Guid subNewRegisID, SubNewPlantationUpdateRequest request, BindPropertyCollection httpPatchBindProperty = null)
+        public async Task UpdateSubNewPlantation(Guid subNewRegisID, SubNewPlantationDto request, BindPropertyCollection httpPatchBindProperty = null)
         {
             Ensure.Any.IsNotNull(request, "SubNewRegistUpdateRequest");
+
+            // check MOU Seeding less 
+
+            var specPlantation = new NewPlantationSearchByIdSpec(request.PlantationId).InCludeSubNewPlantations();
+            var dataPlantation = await dataRepo.GetBySpecAsync(specPlantation);
+            var resultPlantation = mapper.Map<NewPlantationDto>(dataPlantation);
+
+            if (resultPlantation.ContractType == "MOU")
+            {
+                var listSubPlantaions = resultPlantation.SubPlantations;
+                int? sumInSubPlantations = 0;
+                foreach (var item in listSubPlantaions)
+                {
+                    if (item.Id != request.Id)
+                    {
+                        sumInSubPlantations += item.Seedling;
+                    }
+                }
+
+                if (resultPlantation.Seedling != null && request.Seedling != null)
+                {
+                    if (sumInSubPlantations + request.Seedling > resultPlantation.Seedling)
+                    {
+                        throw new ApplicationException("Seeding must be less than Seeding Plan of Plantation");
+                    }
+                }
+                else
+                {
+                    if (resultPlantation.Seedling == null && request.Seedling != null)
+                    {
+                        throw new ApplicationException("Seeding must be null");
+                    }
+                }
+            }
+            // check MOU Seeding less 
 
             var spec = new SubNewPlantationSearchByIdSpec(subNewRegisID);
             var data = await dataSubRepo.GetBySpecAsync(spec);
@@ -169,9 +289,66 @@ namespace Sketec.Application.Services
                 if (httpPatchBindProperty == null || httpPatchBindProperty.HasFlag(nameof(request.ActualVipPrice)))
                     data.ActualVipPrice = request.ActualVipPrice;
 
+                var specInfo = new FileInfoSearchSpec(new FileInfoFilter { RefId = request.Id, FileType = "Other" });
+                var list = await fileInfoRepo.ListAsync(specInfo);
+                //foreach (var item in list)
+                //{
+                //    item.IsActive = false;
+                //}
+
+                if (request.SubNewPlantationImageOther != null)
+                {
+                    foreach (var item in request.SubNewPlantationImageOther)
+                    {
+                        var detail = list.FirstOrDefault(f => f.Id == item.Id);
+                        if (detail != null)
+                        {
+                            detail.IsActive = true;
+                        }
+                        else
+                        {
+                            var fileName = $"{Path.GetRandomFileName()}";
+                            var path = $"eplantation/NewPlantation/{request.Id}/Other/{fileName}";
+                            //await azureBlobStorageService.Upload(path, item.Base64);
+
+                            detail = new Core.Domains.FileInfo(item.FileName)
+                            {
+                                FileType = "Other",
+                                RefId = request.Id,
+                                Path = path
+                            };
+                            await fileInfoRepo.AddAsync(detail);
+                        }
+
+                    }
+                }
 
                 await uow.SaveAsync();
             }
+        }
+
+        public async Task<IEnumerable<FileInfoDto>> GetSubNewPlantationForExportPdfImageOther(Guid newPlantationID)
+        {
+            var other = await fileService.GetFileInfos(new FileInfoFilter { RefId = newPlantationID, FileType = "Other" });
+            foreach (var item in other)
+            {
+                try
+                {
+                    var img = await azureBlobStorageService.Download(item.Path);
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        img.CopyTo(ms);
+                        item.Base64 = ms.ToArray();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return other;
         }
     }
 }

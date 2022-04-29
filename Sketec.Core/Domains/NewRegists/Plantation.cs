@@ -1,6 +1,7 @@
 ﻿using EnsureThat;
 using Sketec.Core.Domains.Types;
 using Sketec.Core.Exceptions;
+using Sketec.Core.Extensions;
 using Sketec.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -31,10 +32,14 @@ namespace Sketec.Core.Domains
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string Remark { get; set; }
+        public string Verifier { get; set; }
 
         public string Zone { get; set; }
         public string MOUType { get; set; }
         public int? Seedling { get; set; }
+        public DateTime? ContractStartDate { get; set; }
+        public DateTime? ContractEndDate { get; set; }
+
 
         public Guid NewRegistId { get; set; }
         public NewRegist NewRegist { get; set; }
@@ -43,6 +48,24 @@ namespace Sketec.Core.Domains
         private List<SubPlantation> _subPlantations = new List<SubPlantation>();
         public IReadOnlyCollection<SubPlantation> SubPlantations => _subPlantations.AsReadOnly();
 
+        private List<PlantationAmortized> _plantationAmortizeds = new List<PlantationAmortized>();
+        public IReadOnlyCollection<PlantationAmortized> PlantationAmortizeds => _plantationAmortizeds.AsReadOnly();
+
+        private List<Unplan> _unplans = new List<Unplan>();
+        public IReadOnlyCollection<Unplan> Unplans => _unplans.AsReadOnly();
+
+
+        private List<RollingPlan> _rollingPlans = new List<RollingPlan>();
+        public IReadOnlyCollection<RollingPlan> RollingPlans => _rollingPlans.AsReadOnly();
+        public void AddRollingPlan(RollingPlan item)
+        {
+            _rollingPlans.Add(item);
+        }
+
+        public void RemoveRollingPlan(RollingPlan item)
+        {
+            _rollingPlans.Remove(item);
+        }
 
         public void AddSubPlantation(SubPlantation item)
         {
@@ -58,9 +81,6 @@ namespace Sketec.Core.Domains
             _subPlantations.Remove(item);
         }
 
-        private List<PlantationAmortized> _plantationAmortizeds = new List<PlantationAmortized>();
-        public IReadOnlyCollection<PlantationAmortized> PlantationAmortizeds => _plantationAmortizeds.AsReadOnly();
-
         public void AddPlantationAmortized(PlantationAmortized item) {
             //if (_plantationAmortizeds.Any(a => a.PlantationId == item.PlantationId)) {
             //    throw new DomainException($"PlantationId : {item.PlantationId} is already existing.");
@@ -70,6 +90,63 @@ namespace Sketec.Core.Domains
         public void RemovePlantationAmortized(PlantationAmortized item)
         {
             _plantationAmortizeds.Remove(item);
+        }
+
+        public void AddUnplan(Unplan item)
+        {
+            if (_unplans.Any(a => a.UnplanNo == item.UnplanNo))
+            {
+                throw new DomainException($"Unplan Id : {item.UnplanNo} is already existing.");
+            }
+            _unplans.Add(item);
+        }
+
+        public void RemoveUnplan(Unplan item)
+        {
+            _unplans.Remove(item);
+        }
+
+        public void ApproveUnplan(Guid unplanId, string approver, string status, string remark)
+        {
+            var item = _unplans.FirstOrDefault(f => f.Id == unplanId && (f.Approver1 == approver || f.Approver2 == approver || f.Approver3 == approver));
+            if (item != null)
+            {
+                if (item.Approver1 == approver)
+                {
+                    item.StatusApprover1 = status;
+                    item.Remark1 = remark;
+                }
+                else if (item.Approver2 == approver)
+                {
+                    item.StatusApprover2 = status;
+                    item.Remark2 = remark;
+                }
+                if (item.Approver3 == approver)
+                {
+                    item.StatusApprover3 = status;
+                    item.Remark3 = remark;
+                }
+
+                item.OverAllStatus = GetOverAllStatus(item.StatusApprover1, item.StatusApprover2, item.StatusApprover3);
+            }
+        }
+
+        private string GetOverAllStatus(string status1, string status2, string status3) 
+        {
+            var status = UnplanStatusType.WaitforApprove.GetStringValue();
+            if (!string.IsNullOrEmpty(status3))
+            {
+                status = status3;
+            } else if (!string.IsNullOrEmpty(status2))
+            {
+                status = status3;
+            }
+            else if (!string.IsNullOrEmpty(status1))
+            {
+                status = status1;
+            }
+            return status;
+
         }
     }
 }

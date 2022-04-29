@@ -131,6 +131,7 @@ namespace Sketec.Api
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.Configure<GdcApiOptions>(Configuration.GetSection("GdcApiSettings"));
             services.Configure<SharePointOptions>(Configuration.GetSection("SharePointSettings"));
+            services.Configure<RabbitMQOptions>(Configuration.GetSection("RabbitMQSettings"));
             // services.AddScoped<ICrmApiService, CrmApiService>();
 
             services.AddScoped<TextFileWriter>();

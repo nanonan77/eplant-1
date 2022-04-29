@@ -47,17 +47,7 @@ namespace Sketec.Core.Domains
         public Guid PlantationId { get; set; }
         public Plantation Plantation { get; set; }
 
-        private List<RollingPlan> _rollingPlans = new List<RollingPlan>();
-        public IReadOnlyCollection<RollingPlan> RollingPlans => _rollingPlans.AsReadOnly();
-        public void AddRollingPlan(RollingPlan item)
-        {
-            _rollingPlans.Add(item);
-        }
-
-        public void RemoveRollingPlan(RollingPlan item)
-        {
-            _rollingPlans.Remove(item);
-        }
+        
 
         //private List<SubNewRegistTestPlot> _subNewRegistTestPlots = new List<SubNewRegistTestPlot>();
         //public IReadOnlyCollection<SubNewRegistTestPlot> SubNewRegistTestPlots => _subNewRegistTestPlots.AsReadOnly();

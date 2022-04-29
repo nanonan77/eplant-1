@@ -45,5 +45,20 @@ namespace Sketec.Core.Specifications
         public string Title { get; set; }
         public string PlantationNo { get; set; }
         public string PIC { get; set; }
+        public Guid? PlanId { get; set; }
+        public bool? IsActive { get; set; }
+
+    }
+
+    public class RollingPlanDetailFilter
+    {
+        public string Title { get; set; }
+        public Guid? Id { get; set; }
+        public string PlantationNo { get; set; }
+        public int? Contract { get; set; }
+        public DateTime? SearchDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? DueDate { get; set; }
+        public string Status { get; set; }
     }
 }

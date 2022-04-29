@@ -53,23 +53,24 @@ namespace Sketec.FileWriter.Pdf
 
                         var cnt = 0;
 
-                        if ((data.AveragePrice ?? 0) != 0)
-                        {
-                            doc.Add(TableCurrent("Current"));
-                            cnt++;
-                        }
                         if ((data.MtpPrice ?? 0) != 0)
                         {
                             doc.Add(TableCurrent("MTP"));
                             cnt++;
                         }
 
-                        if(cnt == 2 && (data.FcPrice ?? 0) != 0)
-                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
                         if ((data.FcPrice ?? 0) != 0)
                         {
                             doc.Add(TableCurrent("FC"));
+                        }
+
+                        if (cnt == 2 && (data.FcPrice ?? 0) != 0)
+                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                        if ((data.AveragePrice ?? 0) != 0)
+                        {
+                            doc.Add(TableCurrent("Current"));
+                            cnt++;
                         }
 
 

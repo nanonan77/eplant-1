@@ -9,35 +9,37 @@ using System.Threading.Tasks;
 
 namespace Sketec.Core.Specifications
 {
-    public class PlnatationSearchSpec : Specification<Plantation>
+    public class PlnatationSearchSpec : NewPlantationBaseSpec
     {
-        //public StatusTrackingSearchSpec(StatusTrackingFilter filter)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(filter.Title))
-        //        Query.Where(m => m.Title == filter.Title);
+        public PlnatationSearchSpec(PlantationFilter filter)
+        {
+            Query.Where(m => m.IsDelete == false);
 
-        //    if (!string.IsNullOrWhiteSpace(filter.RegistID))
-        //        Query.Where(m => m.RegistId == filter.RegistID);
+            if (!string.IsNullOrWhiteSpace(filter.Title))
+                Query.Where(m => m.Title.Contains(filter.Title));
 
-        //    if (!string.IsNullOrWhiteSpace(filter.Status))
-        //    {
-        //        var status = filter.ContractType.Split(",");
-        //        Query.Where(m => status.Contains(m.Status));
-        //    }
+            // if (!string.IsNullOrWhiteSpace(filter.RegistID))
+            //     Query.Where(m => m.RegistId == filter.RegistID);
 
-        //    if (!string.IsNullOrWhiteSpace(filter.ContractType))
-        //    {
-        //        var contractType = filter.ContractType.Split(",");
-        //        Query.Where(m => contractType.Contains(m.Contract.GetValueOrDefault().ToString())); 
-        //    }
+            //    if (!string.IsNullOrWhiteSpace(filter.Status))
+            //    {
+            //        var status = filter.ContractType.Split(",");
+            //        Query.Where(m => status.Contains(m.Status));
+            //    }
 
-        //    if (!string.IsNullOrWhiteSpace(filter.PIC))
-        //        Query.Where(m => m.PIC == filter.PIC);
+            //    if (!string.IsNullOrWhiteSpace(filter.ContractType))
+            //    {
+            //        var contractType = filter.ContractType.Split(",");
+            //        Query.Where(m => contractType.Contains(m.Contract.GetValueOrDefault().ToString())); 
+            //    }
 
-        //    if (!string.IsNullOrWhiteSpace(filter.Verifier))
-        //        Query.Where(m => m.Verifier == filter.Verifier);
+            //    if (!string.IsNullOrWhiteSpace(filter.PIC))
+            //        Query.Where(m => m.PIC == filter.PIC);
 
-        //}
+            //    if (!string.IsNullOrWhiteSpace(filter.Verifier))
+            //        Query.Where(m => m.Verifier == filter.Verifier);
+
+        }
     }
 
     public class PlantationFilter

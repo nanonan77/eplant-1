@@ -112,7 +112,7 @@ namespace Sketec.Application.Services
                             }
                         }
 
-                        emailSubject = "[New Registration] {0} " + newRegModel.ContractType.ToString().Trim() + " " + newRegModel.Title.ToString().Trim();
+                        emailSubject = "[New Registration] [" + item.Action + "] {0} " + newRegModel.ContractType.ToString().Trim() + " " + newRegModel.Title.ToString().Trim();
 
                         #region Email CC
                         //if (!string.IsNullOrWhiteSpace(newRegModel.UpdatedBy))

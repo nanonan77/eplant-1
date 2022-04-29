@@ -31,7 +31,11 @@ namespace Sketec.Api.Controllers
         [HttpGet]
         public Task<IEnumerable<RollingPlanSearchResultDto>> Get([FromQuery] RollingPlanFilter filter) => service.GetRollingPlans(filter);
 
-        
+        [HttpGet("detail")]
+        public Task<IEnumerable<RollingPlanDetailSearchResultDto>> Get([FromQuery] RollingPlanDetailFilter filter) => service.GetRollingPlanDetails(filter);
+
+        [HttpGet("activityfilter")]
+        public Task<IEnumerable<RollingPlanLookupFilterDto>> GetActivity([FromQuery] RollingPlanFilter filter) => service.GetActivities(filter);
 
         //[HttpPatchBindProperty]
         //[HttpPatch("update-date/{id:int}/{type}")]

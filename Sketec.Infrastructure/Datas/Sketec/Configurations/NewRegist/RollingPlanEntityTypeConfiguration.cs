@@ -18,6 +18,7 @@ namespace Sketec.Infrastructure.Datas.Configurations
             builder.Property(e => e.Note).HasMaxLength(2000).IsUnicode(true);
             builder.Property(e => e.Area).HasPrecision(22, 2);
             builder.Property(e => e.ActualArea).HasPrecision(22, 2);
+            builder.Property(e => e.SubPlantationNo).HasMaxLength(1000).IsUnicode(false);
 
         }
     }

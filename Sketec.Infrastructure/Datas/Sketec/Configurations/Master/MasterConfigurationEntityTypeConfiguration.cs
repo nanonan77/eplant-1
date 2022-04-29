@@ -352,7 +352,13 @@ namespace Sketec.Infrastructure.Datas.Configurations
                     Remarks = null,
                     IsActive = true,
                     IsDelete = false
-                }
+                },
+                new MasterConfiguration { Id = 156, ConfigurationKey = "Status Rolling Plan", Code = "Plan", Value = "Plan", Description = "Plan", Remarks = null, IsActive = true, IsDelete = false },
+                new MasterConfiguration { Id = 157, ConfigurationKey = "Status Rolling Plan", Code = "Start", Value = "Start", Description = "Start", Remarks = null, IsActive = true, IsDelete = false },
+                new MasterConfiguration { Id = 158, ConfigurationKey = "Status Rolling Plan", Code = "On progress", Value = "On progress", Description = "On progress", Remarks = null, IsActive = true, IsDelete = false },
+                new MasterConfiguration { Id = 160, ConfigurationKey = "Status Rolling Plan", Code = "Done", Value = "Done", Description = "Done", Remarks = null, IsActive = true, IsDelete = false },
+                new MasterConfiguration { Id = 161, ConfigurationKey = "Status Rolling Plan", Code = "Delayed", Value = "Delayed", Description = "Delayed", Remarks = null, IsActive = true, IsDelete = false },
+                new MasterConfiguration { Id = 162, ConfigurationKey = "Status Rolling Plan", Code = "Cancel", Value = "Cancel", Description = "Cancel", Remarks = null, IsActive = true, IsDelete = false }
 
             );
         }

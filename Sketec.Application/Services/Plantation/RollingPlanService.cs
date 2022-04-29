@@ -50,6 +50,22 @@ namespace Sketec.Application.Services
             return list;
 
         }
+        public async Task<IEnumerable<RollingPlanDetailSearchResultDto>> GetRollingPlanDetails(RollingPlanDetailFilter filter)
+        {
+            var spec = new RollingPlanDetailLinqSearchSpecLinqSearchSpec(filter ?? new RollingPlanDetailFilter());
+            var list = await queryRepo.ListAsync(spec);
+
+            return list;
+
+        }
+        public async Task<IEnumerable<RollingPlanLookupFilterDto>> GetActivities(RollingPlanFilter filter)
+        {
+            var spec = new ActivityLinqSearchSpec(filter ?? new RollingPlanFilter());
+            var list = await queryRepo.ListAsync(spec);
+
+            return list;
+
+        }
         //public async Task<IEnumerable<StatusTrackingSearchResultDto>> GetStatusTracking(StatusTrackingFilter filter)
         //{
         //    var spec = new StatusTrackingSearchSpec(filter ?? new StatusTrackingFilter());

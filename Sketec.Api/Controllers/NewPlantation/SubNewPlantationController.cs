@@ -31,10 +31,15 @@ namespace Sketec.Api.Controllers
         public Task<SubNewPlantationDto> Get([FromQuery] SubNewPlantationFilter filter) => service.GetSubNewPlantation(filter.Id);
 
         [HttpPost]
-        public Task Create(SubNewPlantationCreateRequest request) => service.CreateSubNewPlantation(request);
+        public Task Create(SubNewPlantationDto request) => service.CreateSubNewPlantation(request);
 
         [HttpPut]
-        public Task Update(SubNewPlantationUpdateRequest request) => service.UpdateSubNewPlantation(request.Id, request);
+        public Task Update(SubNewPlantationDto request) => service.UpdateSubNewPlantation(request.Id, request);
+
+        [HttpGet("export-image-other")]
+        public Task<IEnumerable<FileInfoDto>> GetSubNewPlantationForExportPdfImageOther([FromQuery] NewRegistFilter filter) => service.GetSubNewPlantationForExportPdfImageOther(filter.Id);
+
+
 
         //[HttpPatchBindProperty]
         //[HttpPatch("update-date/{id:int}/{type}")]

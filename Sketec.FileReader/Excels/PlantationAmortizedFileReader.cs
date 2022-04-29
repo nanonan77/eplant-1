@@ -15,7 +15,7 @@ namespace Sketec.FileReader.Excels
 {
     public static class PlantationAmortizedFileReader
     {
-        public static IEnumerable<PlantationAmortized> GetNewPlantationAmortized(byte[] byteArray,Guid plantationId)
+        public static IEnumerable<PlantationAmortized> GetNewPlantationAmortized(byte[] byteArray)
         {
             var result = new List<PlantationAmortized>();
             using (Stream stream = new MemoryStream(byteArray))

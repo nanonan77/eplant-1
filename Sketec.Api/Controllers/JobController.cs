@@ -40,5 +40,11 @@ namespace Sketec.Api.Controllers
 
         [HttpGet("noti-new-regist")]
         public Task NotiNewRegist() => service.NotiNewRegist();
+
+
+        [HttpPost("ceateprq")]
+        public void CeatePRQ() => service.CeatePRQ();
+        [HttpPost("ceategr")]
+        public void CeateGR() => service.CeateGR();
     }
 }
