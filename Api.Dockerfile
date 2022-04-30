@@ -11,10 +11,10 @@ COPY ["Sketec.Api/Sketec.Api.csproj", "Sketec.Api/"]
 COPY ["Sketec.Core/Sketec.Core.csproj", "Sketec.Core/"]
 COPY ["Sketec.Application/Sketec.Application.csproj", "Sketec.Application/"]
 COPY ["Sketec.Infrastructure/Sketec.Infrastructure.csproj", "Sketec.Infrastructure/"]
-RUN nuget restore "Sketec.Api/Sketec.Api.csproj"
+RUN dotnet restore "Sketec.Api/Sketec.Api.csproj"
 COPY . .
 WORKDIR "/src/Sketec.Api"
-RUN dotnet build "Sketec.Api.csproj" -c Release -o /app/build
+RUN dotnet build -t "Sketec.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Sketec.Api.csproj" -c Release -o /app/publish
