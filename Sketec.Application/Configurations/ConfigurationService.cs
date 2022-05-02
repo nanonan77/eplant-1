@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sketec.Application.Interfaces;
 using Sketec.Application.Interfaces.Management;
+using Sketec.Application.Interfaces.Plantation;
 using Sketec.Application.Services;
 using Sketec.Application.Shared;
 using Sketec.Core.Interfaces;
@@ -150,6 +151,7 @@ namespace Sketec.Application.Configurations
             services.AddScoped<IPlantationService, PlantationService>();
             services.AddScoped<INewPlantationService, NewPlantationService>();
             services.AddScoped<ISubNewPlantationService, SubNewPlantationService>();
+            services.AddScoped<IUnplanService, UnplanService>();
             #endregion Plantation
 
             #region RollingPlan
