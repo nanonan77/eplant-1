@@ -19,7 +19,7 @@ namespace Sketec.Application.Resources
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public Guid PlantationId { get; set; }
+        public string PlantationId { get; set; }
         public string SubPlantationNo { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
@@ -38,8 +38,7 @@ namespace Sketec.Application.Resources
         public Guid NewRegistId { get; private set; }
         public bool IsActive { get; set; }
 
-        public IEnumerable<NewRegistImagePathDto> SubNewPlantationImagePaths { get; set; }
-        public IEnumerable<FileInfoDto> SubNewPlantationImageOther { get; set; }
+        public IEnumerable<NewRegistImagePathDto> SubNewRegistImagePaths { get; set; }
 
         public bool IsCanEdit { get; set; }
 

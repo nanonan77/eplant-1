@@ -99,71 +99,37 @@ namespace Sketec.Application.Services
 
                 await fileRepo.AddAsync(data);
             }
+
             // create plantaion
+
             var specNewRegist = new NewRegistSearchByIdSpec(id).InCludeSubNewRegists();
             var dataNewRegist = await dataRepoNewRegist.GetBySpecAsync(specNewRegist);
 
-            if (dataNewRegist.ContractType != "Rental") {
-                Guid plantation = await GetCreatePlantation(id);
-            }
-            // create plantaion
-
-
-
-            //var specPlantation = new PlantationLinqSearchSpec(new PlantationFilter() { NewRegistID = id });
-            //var listPlantation = await queryRepo.ListAsync(specPlantation);
-
-            //if (listPlantation.Count == 0) {
-            //    var runningNumber = await runningService.GetRunningNumber("Plantation"+ dataNewRegist.ContractType, DateTime.Now.Year, DateTime.Now.ToString("MM"));
-
-            //    var data = new Core.Domains.Plantation()
-            //    {
-            //        Title = dataNewRegist.Title,
-            //        PlantationNo = runningNumber,
-            //        Latitude = dataNewRegist.Latitude,
-            //        Longitude = dataNewRegist.Longitude,
-            //        NewRegistId = dataNewRegist.Id , 
-            //        Contract = dataNewRegist.Contract,
-            //        PIC = dataNewRegist.PIC,
-            //        ContractType = dataNewRegist.ContractType,
-            //        Village = dataNewRegist.Village,
-            //        District = dataNewRegist.District,
-            //        Province = dataNewRegist.Province,
-            //        SubDistrict = dataNewRegist.SubDistrict,
-            //        Remark = dataNewRegist.Remark,
-            //        Zone = dataNewRegist.Zone,
-            //        MOUType = dataNewRegist.MOUType,
-            //        Seedling = dataNewRegist.Seedling,
-            //        IsActive = true,
-            //        IsDelete = false
-            //    };
-
-            //    await dataRepo.AddAsync(data);
-            //}
-            await uow.SaveAsync();
-
-        }
-        private async Task<Guid> GetCreatePlantation(Guid newRegisId)
-        {
-            var specNewRegist = new NewRegistSearchByIdSpec(newRegisId).InCludeSubNewRegists();
-            var dataNewRegist = await dataRepoNewRegist.GetBySpecAsync(specNewRegist);
-
-            var specPlantation = new PlantationLinqSearchSpec(new PlantationFilter() { NewRegistID = newRegisId });
+            var specPlantation = new PlantationLinqSearchSpec(new PlantationFilter() { NewRegistID = id });
             var listPlantation = await queryRepo.ListAsync(specPlantation);
 
-            Guid plantationId;
-            if (listPlantation.Count == 0)
-            {
-                var runningNumber = await runningService.GetRunningNumber("Plantation" + dataNewRegist.ContractType, DateTime.Now.Year, DateTime.Now.ToString("MM"));
+            if (listPlantation.Count == 0) {
+
+                //var specAll = new PlantationLinqSearchSpec(new PlantationFilter());
+                //var listAll = await queryRepo.ListAsync(specAll);
+
+
+                //var name = dataNewRegist.ContractType == "Rental" ? "PREN" : dataNewRegist.ContractType == "MOU" ? "PMOU" : "PVIP";
+
+                //listAll = listAll.Where(item => item.PlantationNo.Contains(name.ToString())).ToList();
+
+                //var currentNo = listAll.Count;
+
+                //var plantationNo = name + DateTime.Now.ToString("yyyyMMdd") + (currentNo > 9 ? (currentNo + 1).ToString() : "0" + (currentNo + 1).ToString());
+                var runningNumber = await runningService.GetRunningNumber("Plantation"+ dataNewRegist.ContractType, DateTime.Now.Year, DateTime.Now.ToString("MM"));
 
                 var data = new Core.Domains.Plantation()
                 {
-                    Id = new Guid(),
                     Title = dataNewRegist.Title,
                     PlantationNo = runningNumber,
                     Latitude = dataNewRegist.Latitude,
                     Longitude = dataNewRegist.Longitude,
-                    NewRegistId = dataNewRegist.Id,
+                    NewRegistId = dataNewRegist.Id , 
                     Contract = dataNewRegist.Contract,
                     PIC = dataNewRegist.PIC,
                     ContractType = dataNewRegist.ContractType,
@@ -175,97 +141,76 @@ namespace Sketec.Application.Services
                     Zone = dataNewRegist.Zone,
                     MOUType = dataNewRegist.MOUType,
                     Seedling = dataNewRegist.Seedling,
-                    Verifier = dataNewRegist.Verifier,
                     IsActive = true,
                     IsDelete = false
                 };
 
                 await dataRepo.AddAsync(data);
-
-                await uow.SaveAsync();
-
-                plantationId = data.Id;
-            }
-            else {
-                plantationId = listPlantation[0].Id.Value;
             }
 
-            return plantationId;
+            await uow.SaveAsync();
+            //public async Task<IEnumerable<StatusTrackingSearchResultDto>> GetStatusTracking(StatusTrackingFilter filter)
+            //{
+            //    var spec = new StatusTrackingSearchSpec(filter ?? new StatusTrackingFilter());
+            //    var list = await dataRepo.ListAsync(spec);
+            //    return mapper.Map<List<NewRegist>, IEnumerable<StatusTrackingSearchResultDto>>(list);
+            //}
+
         }
-
         public async Task UploadAmortizedExcel(Guid id, UploadPlantationRequest request)
         {
             EnsureArg.IsNotNullOrEmpty(request.FileType, "FileType");
             EnsureArg.IsNotNullOrEmpty(request.Filename, "FileName");
             EnsureArg.IsNotNullOrEmpty(request.Data, "Data");
 
-            // Read File into Table PlantationAmortized
             var byteArray = Convert.FromBase64String(request.Data);
-            var newRegistData = PlantationAmortizedFileReader.GetNewPlantationAmortized(byteArray);
+            var spec = new FileInfoSearchSpec(new FileInfoFilter { RefId = id, FileType = request.FileType });
+            var list = await fileRepo.ListAsync(spec);
+
+            // Read File into Table PlantationAmortized
+            var newRegistData = PlantationAmortizedFileReader.GetNewPlantationAmortized(byteArray,id);
             if (newRegistData == null)
             {
                 return;
             }
             if (newRegistData.Any())
             {
-                //if (dataNewRegist.ContractType == "Rental") { 
+                var specNewPlantation = new NewPlantationSearchByIdSpec(id).InCludeSubNewPlantations();
+                var data = await dataRepo.GetBySpecAsync(specNewPlantation);
 
-                var spec = new FileInfoSearchSpec(new FileInfoFilter { RefId = id, FileType = request.FileType });
-                var list = await fileRepo.ListAsync(spec);
-
-                if (list.Any())
+                if (data.PlantationAmortizeds.Count > 0)
                 {
-                    var data = await fileRepo.GetByIdAsync(list.FirstOrDefault().Id);
-                    data.FileData = byteArray;
-                    data.FileName = request.Filename;
-                }
-                else
-                {
-                    var data = new Core.Domains.FileInfo(request.Filename)
-                    {
-                        FileType = request.FileType,
-                        RefId = id,
-                        FileData = byteArray,
-                    };
-
-                    await fileRepo.AddAsync(data);
+                    foreach (var item in data.PlantationAmortizeds) {
+                        data.RemovePlantationAmortized(item);
+                    }
                 }
 
-
-                //}
-                // create Plantation
-                //Guid plantationId = await GetCreatePlantation(id);
-
-                //var specNewPlantation = new NewPlantationSearchByIdSpec(plantationId).InCludeNewPlantationAmortized();
-                //var dataPlant = await dataRepo.GetBySpecAsync(specNewPlantation);
-
-                //if (dataPlant.PlantationAmortizeds.Count > 0)
-                //{
-                //    foreach (var item in dataPlant.PlantationAmortizeds)
-                //    {
-                //        dataPlant.RemovePlantationAmortized(item);
-                //    }
-                //}
-
-                //foreach (var item in newRegistData)
-                //{
-                //    //item.PlantationId = plantationId;
-                //    dataPlant.AddPlantationAmortized(item);
-                //}
-
-                //// -- Read File into Table PlantationAmortized
-                //// add FileInfo
-                //var dataFile = new Core.Domains.FileInfo(request.Filename)
-                //{
-                //    FileType = request.FileType,
-                //    RefId = plantationId,
-                //    FileData = byteArray,
-                //};
-
-                //await fileRepo.AddAsync(dataFile);
+                foreach (var item in newRegistData)
+                {
+                    item.PlantationId = id;
+                    data.AddPlantationAmortized(item);
+                }
             }
-            // add FileInfo
-            await uow.SaveAsync();
+            // -- Read File into Table PlantationAmortized
+
+            if (list.Any())
+            {
+                var data = await fileRepo.GetByIdAsync(list.FirstOrDefault().Id);
+                data.FileData = byteArray;
+                data.FileName = request.Filename;
+            }
+            else
+            {
+                var data = new Core.Domains.FileInfo(request.Filename)
+                {
+                    FileType = request.FileType,
+                    RefId = id,
+                    FileData = byteArray,
+                };
+
+                await fileRepo.AddAsync(data);
+            }
+        await uow.SaveAsync();
         }
 
         public async Task<DownloadFileResponse> DownloadAmortizedFile(Guid id)
@@ -276,67 +221,6 @@ namespace Sketec.Application.Services
                 Filename = data.FileName,
                 Data = data.FileData
             };
-        }
-
-        public async Task<DownloadFileResponse> DownloadPlanYieldFile(Guid id)
-        {
-            var data = await fileRepo.GetByIdAsync(id);
-            return new DownloadFileResponse
-            {
-                Filename = data.FileName,
-                Data = data.FileData
-            };
-        }
-
-        public async Task UploadPlanYieldExcel(Guid id, UploadPlantationRequest request)
-        {
-            EnsureArg.IsNotNullOrEmpty(request.FileType, "FileType");
-            EnsureArg.IsNotNullOrEmpty(request.Filename, "FileName");
-            EnsureArg.IsNotNullOrEmpty(request.Data, "Data");
-
-            // Read File into Table PlantationAmortized
-            var byteArray = Convert.FromBase64String(request.Data);
-            var newRegistData = PlantationAmortizedFileReader.GetNewPlantationAmortized(byteArray);
-            if (newRegistData == null)
-            {
-                return;
-            }
-            if (newRegistData.Any())
-            {
-                Guid plantationId = await GetCreatePlantation(id);
-
-                //var specNewPlantation = new NewPlantationSearchByIdSpec(plantationId).InCludeNewPlantationAmortized();
-                //var dataPlant = await dataRepo.GetBySpecAsync(specNewPlantation);
-
-                //if (dataPlant.PlantationAmortizeds.Count > 0)
-                //{
-                //    foreach (var item in dataPlant.PlantationAmortizeds)
-                //    {
-                //        dataPlant.RemovePlantationAmortized(item);
-                //    }
-                //}
-
-                //foreach (var item in newRegistData)
-                //{
-                //    //item.PlantationId = plantationId;
-                //    dataPlant.AddPlantationAmortized(item);
-                //}
-
-                //// -- Read File into Table PlantationAmortized
-                //// add FileInfo
-                var dataFile = new Core.Domains.FileInfo(request.Filename)
-                {
-                    FileType = request.FileType,
-                    RefId = plantationId,
-                    FileData = byteArray,
-                };
-
-                await fileRepo.AddAsync(dataFile);
-            }
-            // add FileInfo
-            await uow.SaveAsync();
-
-
         }
     }
 }

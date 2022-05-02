@@ -17,30 +17,12 @@ namespace Sketec.Core.Specifications
 
             return this;
         }
-
-        public NewPlantationBaseSpec InCludeNewPlantationAmortized()
+    }
+    public class NewPlantationAmortizedBaseSpec : Specification<Sketec.Core.Domains.Plantation>, ISingleResultSpecification
+    {
+        public NewPlantationAmortizedBaseSpec InCludeNewPlantationAmortized()
         {
             Query.Include(b => b.PlantationAmortizeds);
-
-            return this;
-        }
-        public NewPlantationBaseSpec InCludeNewRegist()
-        {
-            Query.Include(b => b.NewRegist);
-
-            return this;
-        }
-
-        public NewPlantationBaseSpec InCludeUnplans()
-        {
-            Query.Include(b => b.Unplans);
-
-            return this;
-        }
-
-        public NewPlantationBaseSpec NoTracking()
-        {
-            Query.AsNoTracking();
 
             return this;
         }
@@ -81,8 +63,6 @@ namespace Sketec.Core.Specifications
 
         public bool? IsActive { get; set; }
         public bool? IsDelete { get; set; }
-
-        
     }
 
 }

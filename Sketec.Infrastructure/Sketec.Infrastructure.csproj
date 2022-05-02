@@ -7,37 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Activity Master.xlsx" />
-    <None Remove="Resources\New Regist_01.xlsx" />
+    <Compile Remove="Extensions\**" />
+    <Compile Remove="Specification\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <EmbeddedResource Remove="Specification\**" />
+    <None Remove="Extensions\**" />
+    <None Remove="Specification\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Activity Master.xlsx" />
-    <EmbeddedResource Include="Resources\New Regist_01.xlsx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Ardalis.Specification" Version="5.2.0" />
-    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="5.2.0" />
+    <PackageReference Include="Ardalis.Specification" Version="5.1.0" />
+    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="5.1.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Azure.Identity" Version="1.4.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.9.1" />
     <PackageReference Include="Dapper" Version="2.0.90" />
-    <PackageReference Include="GreenPipes" Version="1.2.1" />
-    <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="MassTransit" Version="4.0.1" />
-    <PackageReference Include="MassTransit.Log4Net" Version="4.0.1" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="4.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.14" />
-    <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource.Redist" Version="1.1.28" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.14" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+    <PackageReference Include="Microsoft.Exchange.WebServices" Version="2.2.0" />
     <PackageReference Include="Microsoft.SharePointOnline.CSOM" Version="16.1.21909.12000" />
-    <PackageReference Include="NewId" Version="3.0.1" />
-    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.1" />
     <PackageReference Include="PnP.Framework" Version="1.8.0" />
-    <PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
     <PackageReference Include="SSH.NET" Version="2020.0.1" />
   </ItemGroup>
 
@@ -45,11 +35,19 @@
     <ProjectReference Include="..\Sketec.Core\Sketec.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.Exchange.WebServices">
-      <HintPath>..\PackageDependencies\Microsoft.Exchange.WebServices\Microsoft.Exchange.WebServices.dll</HintPath>
-    </Reference>
+    <EmbeddedResource Update="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

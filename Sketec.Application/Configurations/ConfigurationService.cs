@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sketec.Application.Interfaces;
 using Sketec.Application.Interfaces.Management;
-using Sketec.Application.Interfaces.Plantation;
 using Sketec.Application.Services;
 using Sketec.Application.Shared;
 using Sketec.Core.Interfaces;
@@ -151,24 +150,16 @@ namespace Sketec.Application.Configurations
             services.AddScoped<IPlantationService, PlantationService>();
             services.AddScoped<INewPlantationService, NewPlantationService>();
             services.AddScoped<ISubNewPlantationService, SubNewPlantationService>();
-            services.AddScoped<IUnplanService, UnplanService>();
             #endregion Plantation
 
             #region RollingPlan
             services.AddScoped<IRollingPlanService, RollingPlanService>();
             #endregion RollingPlan
 
-            #region Interface
-            services.AddScoped<IMapping9999Service, Mapping9999Service>();
-            #endregion Interface
-
             #region Infra Service
 
             var gdcOptions = configuration.GetSection("GdcApiSettings").Get<GdcApiOptions>();
             services.AddSingleton(gdcOptions);
-
-            var rabbitMQOptions = configuration.GetSection("RabbitMQSettings").Get<RabbitMQOptions>();
-            services.AddSingleton(rabbitMQOptions);
 
             var centralBlobStorageOptions = configuration.GetSection("CentralBlobStorageSettings").Get<CentralBlobStorageOptions>();
             services.AddSingleton(centralBlobStorageOptions);
@@ -185,7 +176,6 @@ namespace Sketec.Application.Configurations
             services.AddScoped<IEmailService, ExchangeEmailService>();
             services.AddScoped<IWCAzureBlobStorageService, WCAzureBlobStorageService>();
             services.AddScoped<IGdcApiService, GdcApiService>();
-            services.AddScoped<IRabbitMQService, RabbitMQService>();
 
             var sftpOptions = configuration.GetSection("SftpConfig").Get<SftpSettings>();
             services.AddSingleton(sftpOptions);

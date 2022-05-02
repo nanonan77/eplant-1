@@ -11,8 +11,5 @@ namespace Sketec.Application.Interfaces
         Task ExportMasterActivityToSharepoint();
         Task ImportNewRegistrationFromSharepoint();
         Task NotiNewRegist();
-
-        void CeatePRQ();
-        void CeateGR();
     }
 }

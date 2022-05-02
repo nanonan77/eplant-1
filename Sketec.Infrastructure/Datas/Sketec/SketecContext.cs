@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Sketec.Core.Domains;
 using Sketec.Infrastructure.Datas.Configurations;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -68,15 +67,6 @@ namespace Sketec.Infrastructure.Datas
             #region Files
             builder.ApplyConfiguration(new FileInfoEntityTypeConfiguration());
             #endregion Files
-
-            #region Interface
-            builder.ApplyConfiguration(new Mapping9999EntityTypeConfiguration());
-            builder.ApplyConfiguration(new Match9999EntityTypeConfiguration());
-            builder.ApplyConfiguration(new MatchDataEntityTypeConfiguration());
-            builder.ApplyConfiguration(new MatchPlantationEntityTypeConfiguration());
-            builder.ApplyConfiguration(new MappingTransEntityTypeConfiguration());
-            
-            #endregion Interface
 
             Seed(builder);
         }

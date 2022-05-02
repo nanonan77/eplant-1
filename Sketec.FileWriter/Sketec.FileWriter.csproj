@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\Angsana New.ttf" />
     <None Remove="Fonts\arial-unicode-ms.ttf" />
     <None Remove="Fonts\TAHOMA.TTF" />
     <None Remove="Fonts\THSARABUN.TTF" />
@@ -24,7 +23,9 @@
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="5.7.5" />
     <PackageReference Include="itext7" Version="7.1.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,4 +33,26 @@
     <ProjectReference Include="..\Sketec.FileReader\Sketec.FileReader.csproj" />
     <ProjectReference Include="..\Sketec.Infrastructure\Sketec.Infrastructure.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\..\..\..\..\usr\local\share\dotnet\packs\Microsoft.AspNetCore.App.Ref\5.0.0\ref\net5.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\SignOff.Designer.cs">
+      <DependentUpon>SignOff.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SignOff.resx">
+      <LastGenOutput>SignOff.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  
 </Project>

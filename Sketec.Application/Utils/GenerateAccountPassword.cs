@@ -96,13 +96,5 @@ namespace Sketec.Application.Utils
             // Return array
             return ms.ToArray();
         }
-
-
-        public static List<string> RoleAdmin = new List<string>(new string[] { "A" });
-        public static List<string> RoleOperation = new List<string>(new string[] { "O1", "O2" });
-        public static List<string> RoleSupervisor = new List<string>(new string[] { "S" });
-        public static List<string> RoleSectionManager = new List<string>(new string[] { "SS" });
-        public static List<string> RoleDepartmentManager = new List<string>(new string[] { "M" });
-        public static List<string> RoleDocument = new List<string>(new string[] { "D" });
     }
 }

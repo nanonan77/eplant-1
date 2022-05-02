@@ -19,9 +19,8 @@ namespace Sketec.Core.Domains
         public string Status { get; set; }
         public string Note { get; set; }
 
-        public Guid? PlantationId { get; set; }
-        public Plantation Plantation { get; private set; }
-        public string SubPlantationNo { get; set; }
+        public Guid? SubPlantationId { get; set; }
+        public SubPlantation SubPlantation { get; private set; }
 
         public int? MasterActivityId { get; set; }
         public MasterActivity MasterActivity { get; private set; }

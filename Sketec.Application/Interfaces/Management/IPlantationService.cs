@@ -17,9 +17,6 @@ namespace Sketec.Application.Interfaces
 
         Task UploadAmortizedExcel(Guid id, UploadPlantationRequest request);
         Task<DownloadFileResponse> DownloadAmortizedFile(Guid id);
-
-        Task UploadPlanYieldExcel(Guid id, UploadPlantationRequest request);
-        Task<DownloadFileResponse> DownloadPlanYieldFile(Guid id);
         //Task UpdateDate(int id, string type, FollowingPaymentUpdateDateRequest request, BindPropertyCollection httpPatchBindProperty = null);
         //Task UpdateStatusCalling(int id, FollowingPaymentUpdateStatusRequest request, BindPropertyCollection httpPatchBindProperty = null);
         //Task UpdatePlanCashStatus(int id, FollowingPaymentUpdateStatusRequest request, BindPropertyCollection httpPatchBindProperty = null);

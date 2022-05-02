@@ -10,11 +10,8 @@ namespace Sketec.Application.Interfaces
 {
     public interface INewPlantationService : IApplicationService
     {
-        Task<IEnumerable<NewPlantationDto>> GetPlantation(PlantationFilter filter);
         Task<NewPlantationDto> GetNewPlantation(Guid newRegisID);
 
-        Task UpdateNewPlantation(Guid newRegisID, NewPlantationDto request, BindPropertyCollection httpPatchBindProperty = null);
-
-        Task<IEnumerable<FileInfoDto>> GetNewPlantationForExportPdfImageOther(Guid newRegisID);
+        Task UpdateNewPlantation(Guid newRegisID, NewPlantationUpdateRequest request, BindPropertyCollection httpPatchBindProperty = null);
     }
 }

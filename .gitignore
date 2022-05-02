@@ -150,9 +150,6 @@ coverage*.info
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
-.vscode/launch.json
-.vscode/tasks.json
-
 
 # NCrunch
 _NCrunch_*

@@ -28,8 +28,6 @@ namespace Sketec.Application.Services
         IMasterConfigurationService configService;
         IMasterActivityService activityService;
         ApplicationSettings applicationSettings;
-
-        IRabbitMQService mqApiService;
         public JobsService(
             IMapper mapper,
             IWCUnitOfWork uow,
@@ -41,8 +39,7 @@ namespace Sketec.Application.Services
             IEmailService emailService,
             IOptions<ApplicationSettings> appOptions,
             IMasterConfigurationService configService,
-            IMasterActivityService activityService,
-            IRabbitMQService mqApiService)
+            IMasterActivityService activityService)
         {
             this.mapper = mapper;
             this.uow = uow;
@@ -55,7 +52,6 @@ namespace Sketec.Application.Services
             this.activityService = activityService;
             this.emailService = emailService;
             applicationSettings = appOptions.Value;
-            this.mqApiService = mqApiService;
         }
 
         public async Task ExportMasterActivityToSharepoint()
@@ -140,15 +136,6 @@ namespace Sketec.Application.Services
                     }
                 }
             }
-        }
-        public void CeatePRQ()
-        {
-            mqApiService.CeatePRQ();
-        }
-
-        public void CeateGR()
-        {
-            mqApiService.CeateGR();
         }
     }
 }

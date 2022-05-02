@@ -12,11 +12,9 @@ namespace Sketec.Application.Interfaces
     {
         Task<SubNewPlantationDto> GetSubNewPlantation(Guid newRegisID);
 
-        Task CreateSubNewPlantation(SubNewPlantationDto request);
+        Task CreateSubNewPlantation(SubNewPlantationCreateRequest request);
 
-        Task UpdateSubNewPlantation(Guid subNewRegisID, SubNewPlantationDto request, BindPropertyCollection httpPatchBindProperty = null);
-
-        Task<IEnumerable<FileInfoDto>> GetSubNewPlantationForExportPdfImageOther(Guid newRegisID);
+        Task UpdateSubNewPlantation(Guid subNewRegisID, SubNewPlantationUpdateRequest request, BindPropertyCollection httpPatchBindProperty = null);
 
     }
 }
