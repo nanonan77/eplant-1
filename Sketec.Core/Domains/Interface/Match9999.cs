@@ -17,6 +17,9 @@ namespace Sketec.Core.Domains
         public string Status { get; set; }
 
 
+        public Guid MappingTransId { get; set; }
+        public MappingTrans MappingTrans { get; set; }
+
         private List<MatchData> _matchDatas = new List<MatchData>();
         public IReadOnlyCollection<MatchData> MatchDatas => _matchDatas.AsReadOnly();
 
