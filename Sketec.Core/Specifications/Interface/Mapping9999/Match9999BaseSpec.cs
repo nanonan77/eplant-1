@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sketec.Core.Specifications
+namespace Sketec.Core.Specifications.Management.Assumptions
 {
     public class Match9999BaseSpec : Specification<Match9999>, ISingleResultSpecification
     {

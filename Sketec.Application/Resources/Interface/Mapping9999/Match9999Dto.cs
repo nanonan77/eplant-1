@@ -20,10 +20,6 @@ namespace Sketec.Application.Resources
         public string TransactionNo { get; set; }
         public DateTime TransactionDate { get; set; }
         public string Status { get; set; }
-
-        public Guid MappingTransId { get; set; }
-        public MappingTrans MappingTrans { get; set; }
-
         public IEnumerable<MatchDataDto> MatchDatas { get; set; }
         public IEnumerable<MatchPlantationDto> MatchPlantations { get; set; }
 

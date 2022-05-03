@@ -158,10 +158,6 @@ namespace Sketec.Application.Configurations
             services.AddScoped<IRollingPlanService, RollingPlanService>();
             #endregion RollingPlan
 
-            #region Interface
-            services.AddScoped<IMapping9999Service, Mapping9999Service>();
-            #endregion Interface
-
             #region Infra Service
 
             var gdcOptions = configuration.GetSection("GdcApiSettings").Get<GdcApiOptions>();
