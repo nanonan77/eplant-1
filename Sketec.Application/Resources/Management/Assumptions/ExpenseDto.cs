@@ -37,5 +37,7 @@ namespace Sketec.Application.Resources.Management.Assumptions
         public decimal? YearCost14 { get; set; }
         public decimal? YearCost15 { get; set; }
         public bool IsUnplan { get; set; }
+        public bool IsLatest { get; set; }
+        public Guid? UnplanId { get; set; }
     }
 }

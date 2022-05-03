@@ -30,9 +30,11 @@ namespace Sketec.Core.Domains
         public decimal? YearCost14 { get; set; }
         public decimal? YearCost15 { get; set; }
         public bool IsUnplan { get; set; }
-        
+        public Guid? UnplanId { get; set; }
+
 
         public Assumption Assumption { get; private set; }
         public MasterActivity MasterActivity { get; private set; }
+        public Unplan Unplan { get; private set; }
     }
 }

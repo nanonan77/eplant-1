@@ -36,13 +36,6 @@ namespace Sketec.Core.Domains
         public string MOUType { get; set; }
         public int? Seedling { get; set; }
 
-        public string OverAllStatus { get; set; }
-        public string Approver1 { get; set; }
-        public string StatusApprover1 { get; set; }
-        public string Approver2 { get; set; }
-        public string StatusApprover2 { get; set; }
-        public string Approver3 { get; set; }
-        public string StatusApprover3 { get; set; }
 
         public Guid NewRegistId { get; set; }
         public NewRegist NewRegist { get; set; }
@@ -50,6 +43,12 @@ namespace Sketec.Core.Domains
 
         private List<SubPlantation> _subPlantations = new List<SubPlantation>();
         public IReadOnlyCollection<SubPlantation> SubPlantations => _subPlantations.AsReadOnly();
+
+        private List<PlantationAmortized> _plantationAmortizeds = new List<PlantationAmortized>();
+        public IReadOnlyCollection<PlantationAmortized> PlantationAmortizeds => _plantationAmortizeds.AsReadOnly();
+
+        private List<Unplan> _unplans = new List<Unplan>();
+        public IReadOnlyCollection<Unplan> Unplans => _unplans.AsReadOnly();
 
 
         public void AddSubPlantation(SubPlantation item)
@@ -66,9 +65,6 @@ namespace Sketec.Core.Domains
             _subPlantations.Remove(item);
         }
 
-        private List<PlantationAmortized> _plantationAmortizeds = new List<PlantationAmortized>();
-        public IReadOnlyCollection<PlantationAmortized> PlantationAmortizeds => _plantationAmortizeds.AsReadOnly();
-
         public void AddPlantationAmortized(PlantationAmortized item) {
             //if (_plantationAmortizeds.Any(a => a.PlantationId == item.PlantationId)) {
             //    throw new DomainException($"PlantationId : {item.PlantationId} is already existing.");
@@ -79,5 +75,20 @@ namespace Sketec.Core.Domains
         {
             _plantationAmortizeds.Remove(item);
         }
+
+        public void AddUnplan(Unplan item)
+        {
+            if (_unplans.Any(a => a.UnplanNo == item.UnplanNo))
+            {
+                throw new DomainException($"Unplan Id : {item.UnplanNo} is already existing.");
+            }
+            _unplans.Add(item);
+        }
+
+        public void RemoveUnplan(Unplan item)
+        {
+            _unplans.Remove(item);
+        }
+
     }
 }

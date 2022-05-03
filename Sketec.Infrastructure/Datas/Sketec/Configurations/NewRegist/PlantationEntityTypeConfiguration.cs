@@ -40,13 +40,19 @@ namespace Sketec.Infrastructure.Datas.Configurations
             
             builder.Property(e => e.Remark).HasMaxLength(2000).IsUnicode(true);
             builder.Property(e => e.ContractType).HasMaxLength(20).IsUnicode(true);
-            builder.Property(e => e.OverAllStatus).HasMaxLength(20).IsUnicode(true);
-            builder.Property(e => e.Approver1).HasMaxLength(30).IsUnicode(true);
-            builder.Property(e => e.Approver2).HasMaxLength(30).IsUnicode(true);
-            builder.Property(e => e.Approver3).HasMaxLength(30).IsUnicode(true);
-            builder.Property(e => e.StatusApprover1).HasMaxLength(30).IsUnicode(true);
-            builder.Property(e => e.StatusApprover2).HasMaxLength(30).IsUnicode(true);
-            builder.Property(e => e.StatusApprover3).HasMaxLength(30).IsUnicode(true);
+
+            builder.HasOne(e => e.NewRegist)
+                .WithMany()
+                .HasForeignKey(e => e.NewRegistId)
+                .HasPrincipalKey(e => e.Id)
+                .IsRequired(true)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(e => e.Unplans)
+               .WithOne(i => i.Plantation)
+               .HasForeignKey(e => e.PlantationId)
+               .HasPrincipalKey(e => e.Id)
+               .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
