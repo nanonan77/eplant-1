@@ -17,7 +17,7 @@ namespace Sketec.Core.Specifications
         }
         public Match9999BaseSpec IncludeAll ()
         {
-            return IncludeMatchData().IncludeMatchPlantation();
+            return IncludeMatchData();
         }
         public Match9999BaseSpec IncludeMatchData()
         {
