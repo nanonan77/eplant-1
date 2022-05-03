@@ -13,7 +13,6 @@ namespace Sketec.Core.Specifications
         public Match9999BaseSpec NoTracking()
         {
             Query.AsNoTracking();
-
             return this;
         }
         public Match9999BaseSpec IncludeAll ()
@@ -23,14 +22,6 @@ namespace Sketec.Core.Specifications
         public Match9999BaseSpec IncludeMatchData()
         {
             Query.Include(b => b.MatchDatas).ThenInclude(b => b.Mapping9999);
-
-            return this;
-        }
-        public Match9999BaseSpec IncludeMatchPlantation()
-        {
-            Query.Include(b => b.MatchPlantations).ThenInclude(b => b.MasterActivity).ThenInclude(b => b.MasterActivityType);
-            Query.Include(b => b.MatchPlantations).ThenInclude(b => b.Plantation).ThenInclude(b => b.SubPlantations);
-
             return this;
         }
     }
