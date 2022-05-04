@@ -73,7 +73,7 @@ namespace Sketec.Infrastructure.Datas
             builder.ApplyConfiguration(new Match9999EntityTypeConfiguration());
             builder.ApplyConfiguration(new MatchDataEntityTypeConfiguration());
             builder.ApplyConfiguration(new MatchPlantationEntityTypeConfiguration());
-            builder.ApplyConfiguration(new MappingTransEntityTypeConfiguration());
+            // builder.ApplyConfiguration(new MappingTransEntityTypeConfiguration());
             
             #endregion Interface
 
@@ -82,12 +82,6 @@ namespace Sketec.Infrastructure.Datas
 
         private void Seed(ModelBuilder builder)
         {
-            //builder.Entity<>(e =>
-            //{
-            //    e.HasData(
-
-            //        );
-            //});
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
