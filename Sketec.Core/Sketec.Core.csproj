@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Domains\InvoiceManagement\**" />
-    <EmbeddedResource Remove="Domains\InvoiceManagement\**" />
-    <None Remove="Domains\InvoiceManagement\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Ardalis.Specification" Version="5.1.0" />
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="5.1.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
@@ -20,10 +14,6 @@
     <PackageReference Include="FluentFTP" Version="35.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
     <PackageReference Include="SSH.NET" Version="2020.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Specifications\NewPlantations\" />
   </ItemGroup>
 
 </Project>
