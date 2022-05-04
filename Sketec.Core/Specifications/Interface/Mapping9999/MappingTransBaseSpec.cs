@@ -16,7 +16,7 @@ namespace Sketec.Core.Specifications
 
             return this;
         }
-        public MappingTransBaseSpec IncludeAll ()
+        public MappingTransBaseSpec IncludeAll()
         {
             return IncludeMatch9999().IncludeMatchPlantation();
         }
