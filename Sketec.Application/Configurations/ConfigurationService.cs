@@ -159,7 +159,7 @@ namespace Sketec.Application.Configurations
             #endregion RollingPlan
 
             #region Interface
-            // services.AddScoped<IMapping9999Service, Mapping9999Service>();
+            services.AddScoped<IMapping9999Service, Mapping9999Service>();
             #endregion Interface
 
             #region Infra Service
