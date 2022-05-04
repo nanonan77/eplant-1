@@ -1,21 +1,15 @@
 ﻿using Ardalis.Specification;
-using Sketec.Core.Domains;
-using Sketec.Core.Domains.Types;
 using System;
 using Sketec.Core.Abstracts;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sketec.Core.Specifications
 {
     public class Mapping9999QuerySpec : DapperSpecification<Mapping9999SearchDto>
     {
-
         public Mapping9999QuerySpec(Mapping9999Filter filter)
         {
-
             var queryStr = @$"SELECT m.Id Mapping9999Id, m.Year, m.Month, m.CostCenter, m.CostElement, m.Name, m.PurchaseOrderText, m.RefDocumentNumber,
                             m.PostingRow, m.ValCOAreaCrcy, m.RefCompanyCode, m.FiscalYear,
                             h.Id Match9999Id, h.TransactionNo, h.TransactionDate, h.Status, h.CreatedBy, h.CreatedDate, h.UpdatedBy, h.UpdatedDate
@@ -66,8 +60,6 @@ namespace Sketec.Core.Specifications
         public decimal? ValCOAreaCrcy { get; set; }
         public string RefCompanyCode { get; set; }
         public int? FiscalYear { get; set; }
-
-
         public Guid? Match9999Id { get; set; }
         public string TransactionNo { get; set; }
         public DateTime? TransactionDate { get; set; }
@@ -89,21 +81,4 @@ namespace Sketec.Core.Specifications
         public string TransactionNo { get; set; }
 
     }
-
-    //public class MasterActivityCreateRequest
-    //{
-    //    public string ActivityEN { get; set; }
-    //    public string ActivityTH { get; set; }
-    //    public string ActivityCode { get; set; }
-    //    public int MasterActivityTypeId { get; set; }
-    //}
-
-    //public class MasterActivityUpdateRequest
-    //{
-    //    public string ActivityEN { get; set; }
-    //    public string ActivityTH { get; set; }
-    //    public string ActivityCode { get; set; }
-    //    public int? MasterActivityTypeId { get; set; }
-    //    public bool? IsActive { get; set; }
-    //}
 }
